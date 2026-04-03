@@ -161,7 +161,7 @@ Replace these SVG placeholders with real screenshots when you capture the final 
 
 | Home feed | Product detail | Feed controls |
 | --- | --- | --- |
-| ![Home feed placeholder](docs/assets/home-feed-placeholder.svg) | ![Product detail placeholder](docs/assets/product-detail-placeholder.svg) | ![Feed controls placeholder](docs/assets/feed-controls-placeholder.svg) |
+| ![Home feed](docs/assets/home-feed-intentshelf.svg) | ![Product detail](docs/assets/product-details.png) | ![Feed controls](docs/assets/feed-controls.png) |
 
 Asset notes: [docs/assets/README.md](docs/assets/README.md)
 
