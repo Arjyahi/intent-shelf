@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-intentshelf}
+      POSTGRES_USER: ${POSTGRES_USER:-intentshelf}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-intentshelf}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "${BACKEND_PORT:-18001}:18001"
+    environment:
+      INTENTSHELF_APP_NAME: IntentShelf API
+      INTENTSHELF_APP_ENV: development
+      INTENTSHELF_DEBUG: "true"
+      INTENTSHELF_API_PORT: 18001
+      INTENTSHELF_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-intentshelf}:${POSTGRES_PASSWORD:-intentshelf}@postgres:5432/${POSTGRES_DB:-intentshelf}
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/tests:/app/tests
+      - ./backend/alembic:/app/alembic
+      - ./backend/alembic.ini:/app/alembic.ini
+    depends_on:
+      - postgres
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 18001 --reload"
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "${FRONTEND_PORT:-13000}:3000"
+    environment:
+      NEXT_PUBLIC_APP_NAME: IntentShelf
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://127.0.0.1:18001}
+      INTENTSHELF_BACKEND_URL: http://backend:18001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    command: npm run dev -- --hostname 0.0.0.0 --port 3000
+
+volumes:
+  postgres_data:
