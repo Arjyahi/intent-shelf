@@ -157,8 +157,6 @@ More detail: [docs/offline_evaluation.md](docs/offline_evaluation.md)
 
 ## Screenshots
 
-Replace these SVG placeholders with real screenshots when you capture the final demo. The filenames are already stable so the README links do not need to change later.
-
 | Home feed | Product detail | Feed controls |
 | --- | --- | --- |
 | ![Home feed](docs/assets/home-feed-intentshelf.png) | ![Product detail](docs/assets/product-details.png) | ![Feed controls](docs/assets/feed-controls.png) |
